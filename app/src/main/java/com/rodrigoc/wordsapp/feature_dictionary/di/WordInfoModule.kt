@@ -3,7 +3,7 @@ package com.rodrigoc.wordsapp.feature_dictionary.di
 import android.app.Application
 import androidx.room.Room
 import com.google.gson.Gson
-import com.rodrigoc.wordsapp.feature_dictionary.data.local.dao.WordInfoDao
+import com.rodrigoc.wordsapp.feature_dictionary.data.local.Converters
 import com.rodrigoc.wordsapp.feature_dictionary.data.local.database.WordInfoDatabase
 import com.rodrigoc.wordsapp.feature_dictionary.data.remote.DictionaryApi
 import com.rodrigoc.wordsapp.feature_dictionary.data.remote.DictionaryApi.Companion.BASE_URL
@@ -17,7 +17,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.*
 import javax.inject.Singleton
 
 @Module
@@ -44,7 +43,7 @@ object WordInfoModule {
     fun provideWordInfoDatabase(app: Application): WordInfoDatabase {
         return Room.databaseBuilder(
             app, WordInfoDatabase::class.java, "word_db"
-        ).addTypeConverter(GsonParser(Gson()))
+        ).addTypeConverter(Converters(GsonParser(Gson())))
             .build()
     }
 
